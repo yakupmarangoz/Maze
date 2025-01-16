@@ -127,7 +127,7 @@ public static class Cell implements Comparable<Cell> {
         }
     }
     /*
-     * A* search heuristic Euclidian distance
+     * A* search heuristic Manhattan
      */
     private static int heuristic(Cell a, Cell b) {
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
