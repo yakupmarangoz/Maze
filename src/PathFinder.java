@@ -70,7 +70,9 @@ public static class Cell implements Comparable<Cell> {
             Arrays.fill(i, Integer.MAX_VALUE);
         }
         Map<Cell,Cell> parent = new HashMap<>();
-        PriorityQueue<Cell> queue = new PriorityQueue<>(Comparator.comparingInt(c -> distance[c.x][c.y]));
+        PriorityQueue<Cell> queue = new PriorityQueue<>((a, b) -> Integer.compare(
+            distance[a.x][a.y] + heuristic(a, objective),
+            distance[b.x][b.y] + heuristic(b, objective)));
         
         distance[start.x][start.y] = 0;
         queue.add(start);
@@ -124,12 +126,19 @@ public static class Cell implements Comparable<Cell> {
                 return 0;
         }
     }
+    /*
+     * A* search heuristic Euclidian distance
+     */
+    private static int heuristic(Cell a, Cell b) {
+        return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+    }
     public static List<Cell> FindFinalPath(Map<Cell,Cell> parent, Cell objective, Cell start)
     {
         List<Cell> path = new ArrayList<>();
         for (Cell i = objective; i != null; i = parent.get(i)) {
             path.add(i);
-            if (i.equals(start)){
+            if (i.equals(start))
+            {
                 break;
             } 
         }
